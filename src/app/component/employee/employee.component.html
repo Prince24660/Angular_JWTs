@@ -1,0 +1,191 @@
+<div class="row">
+
+  <div class="col-8">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary p-2 m-2" (click)="createClick()" data-bs-toggle="modal" data-bs-target="#newmodal">
+          Create new Employee
+        </button>
+  </div>
+  <!-- <div class="d-flex justify-content-center align-items-center">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Enter search term" />
+    <button class="btn btn-primary" (click)="onSearch()">Search</button>
+  </div> -->
+  <div class="d-flex justify-content-center align-items-center">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" placeholder="Enter search term" />
+    <!-- <button class="btn btn-primary" (click)="onSearch()">Search</button> -->
+  </div>
+  
+  <div *ngIf="emplist.length > 0">
+    <h3 class="text-center">Employee List:</h3>
+  </div>
+  
+  <div class="col-6" style="width: 50%; margin: 0 auto;">
+    <table class="table table-stripped table-active table-hover table-bordered table-hover table-active p-4 m-4 bg-light">
+      <thead>
+        <tr class="text-white bg-danger">
+          <th (click)="sortBy('name')">Name 
+            <i class="fa" [ngClass]="{'fa-arrow-up': sortKey === 'name' && !sortReverse, 'fas-arrow-down': sortKey === 'name' && sortReverse}"></i>
+          </th>
+          <th (click)="sortBy('salary')">Salary 
+            <i class="fa" [ngClass]="{'fa-arrow-up': sortKey === 'salary' && !sortReverse, 'fas-arrow-down': sortKey === 'salary' && sortReverse}"></i>
+          </th>
+          <th (click)="sortBy('depName')">Department Name 
+            <i class="fa" [ngClass]="{'fa-arrow-up': sortKey === 'depName' && !sortReverse, 'fas-arrow-down-arrow-down': sortKey === 'depName' && sortReverse}"></i>
+          </th>
+          <th (click)="sortBy('sklname')">Skill Name 
+            <i class="fa" [ngClass]="{'fa-arrow-up': sortKey === 'sklname' && !sortReverse, 'fas-arrow-down-arrow-down': sortKey === 'sklname' && sortReverse}"></i>
+          </th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      
+  <tbody>
+    <tr *ngFor="let emp of emplist | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+      <td>{{emp.name}}</td>
+      <td>{{emp.salary}}</td>
+      <td>{{emp.depName}}</td>
+      <td>{{emp.sklname}}</td>
+      <td>
+        <button class="btn btn-info p-2 m-2" (click)="editclick(i)" data-bs-toggle="modal" data-bs-target="#editmodal">
+          <i class="fa fa-edit p-1"></i>Edit
+        </button>
+        <button class="btn btn-danger p-2" (click)="Deleteemployees(i)">
+          <i class="fa fa-trash p-1"></i>Delete
+        </button>
+      </td>
+      
+    </tr>
+  </tbody>
+    </table>
+  
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div> 
+  
+  
+                                          <!-- CREATE CASE -->
+  <div class="modal hidemodal" role="dialog" id="newmodal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- header -->
+          <div class="modal-header">
+            <h5 class="modal-title button-85 text-dark">Add to Employee</h5>
+            <button type="button" class="btn-close p-2" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+            <!-- Body -->
+            <div class="col-sm-8">
+              <div class="row form-group p-2">
+                  <label for="txtnames" class="col-2 m-2 p-2">Name<span style="color: red;">*</span></label>
+                  <div class="col-6">
+                  <input type="text" [(ngModel)]="newemployee.name" (ngModelChange)="onName()"  id="txtnames" name="name" placeholder="Enter Name" class="p-2" required><br>
+               <span *ngIf="!newemployee.name && isname" style="color: red;">Name is required</span>
+                </div>
+                </div>
+                <div class="row form-group">
+                  <label for="txtname" class="col-2 m-2 p-2" minlength="4" maxlength="8" size="10">Salary <span style="color: red;">*</span></label>
+                  <div class="col-6">
+                  <input type="number" [(ngModel)]="newemployee.salary" (ngModelChange)="onsalarychange()" id="txtname" name="salary" placeholder="Enter Salary" class="p-2" minlength="4" maxlength="8" size="10" required><br>
+               <span *ngIf="newemployee.salary===0 && issalary" style="color: red;">Salary is Required</span>
+                </div>
+                </div>
+                <div>
+                  <label>
+                    <span style="color: rgb(209, 35, 35);">*</span>
+                    <select [(ngModel)]="newemployee.depId" (ngModelChange)="onDepIdChange()" class="text-warning bg-dark m-2">
+                      <option value="0">Select Department</option>
+                      <option *ngFor="let dep of deplist" [value]="dep.depId">{{dep.depName}}</option>
+                    </select>
+                  </label>
+                  <span *ngIf="newemployee.depId === 0 && isdepid" style="color: red;">Department is Required</span>
+                </div>
+            </div><br>
+            <div>
+              <div class="col-12" [ngClass]="{'has-error': !selectedItems || selectedItems.length === 0}">
+                <span style="color: red;">*</span>
+                <ng-multiselect-dropdown
+                    [placeholder]="'Select Skill'"
+                    [settings]="dropdownSettings"
+                    [data]="dropdownList"
+                    [(ngModel)]="selectedItems"
+                    (ngModelChange)="checkSkillsSelected()"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+                <div class="error-message" *ngIf="!selectedItems || selectedItems.length === 0 && issklid" style="color: red;">
+                    Skills are required.
+                </div>
+            </div>
+            
+            </div>
+            <!-- footer -->
+            <div class="modal-footer">
+              <button type="button"  (click)=" Closeclicksweetalert()"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" (click)="SaveEmployees()"  class="btn btn-primary">Save</button>
+            </div>
+            
+      </div>
+        </div>
+      </div>
+  
+  
+  
+                                           <!-- EDIT CASE -->
+  
+      <div class="modal " role="dialog" id="editmodal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- header -->
+              <div class="modal-header">
+                <h5 class="modal-title button-85 text-dark">Update Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+                <!-- Body -->
+                <div class="col-sm-8">
+                  <div class="row form-group">
+                    <!-- <label for="txtempid" class="col-2 m-2">Id</label> -->
+                    <div class="col-6">
+                    <input type="text" [(ngModel)]="editemployee.empId" hidden  id="txtempid" name="name" placeholder="Enter Empid" class="p-2" required><br>
+                  </div>
+                  </div>
+                  <div class="row form-group">
+                      <label for="txtname" class="col-2 m-2 p-2">Name<span style="color: red;">*</span></label>
+                      <div class="col-6">
+                      <input type="text" [(ngModel)]="editemployee.name"  id="txtname" name="name" placeholder="Enter Name" class="p-2" required><br>
+                    </div>
+                    </div>
+                    <div class="row form-group">
+                      <label for="txtname" class="col-2 m-2 p-2">Salary<span style="color: red;">*</span></label>
+                      <div class="col-6">
+                      <input type="text" [(ngModel)]="editemployee.salary" id="txtname" name="salary" placeholder="Enter Salary" class="p-2" required><br>
+                    </div>
+                    </div>
+                    <label class="col-2 m-2"> <span style="color: red;">*</span>
+                      <select [(ngModel)]="editemployee.depId" class="text-warning bg-dark m-2">
+                        <!-- <option [value]="editemployee.depId">{{editemployee.depName}}</option> -->
+                        <option *ngFor="let dep of deplist" [value]="dep.depId" >{{dep.depName}}</option>
+                      </select>
+                    </label>
+              </div><br>
+              <div>
+                <div class="col-12">
+                  <span style="color: red;">*</span>
+                  <!-- <span *ngIf="editemployee.sklid ===0 && issklid" style="color: red;">Skils Is Required</span> -->
+                  <ng-multiselect-dropdown
+                  [placeholder]="'Select Skill'"
+                  [settings]="dropdownSettings"
+                  [data]="dropdownList"
+                  [(ngModel)]="selectedItems"
+                  (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                >
+                </ng-multiselect-dropdown>             
+                </div>
+              </div>
+             <!-- footer -->
+              <div class="modal-footer">
+                <button type="button"  (click)=" Closeclicksweetalert()"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" (click)="UpdateEmployees()"  class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+              </div>
+          </div>
+            </div>
+          </div>
+  </div>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGxvZ2lufGVufDB8fDB8fHww');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .content {
+      width: 60%;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      border-radius: 10px;
+      margin-top: 50px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="number"] {
+      width: calc(100% - 22px); /* Adjusted input width to accommodate padding and border */
+      padding: 10px;
+      margin: 5px 0 20px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: calc(100% - 22px); /* Adjusted button width to accommodate padding and border */
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .m-3 {
+      margin: 3rem;
+    }
+
+    .p-2 {
+      padding: 2rem;
+    }
+
+    .m-2 {
+      margin: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="content">
+  <!-- Main content goes here -->
+  <h1 class="text-center m-3">Register</h1>
+  <form method="post">
+    <div class="container">
+      <label for="nm"><b>First Name</b></label>
+      <input type="text" [(ngModel)]="newuser.id" hidden placeholder="Enter First Name" name="nm" required>
+
+      <label for="nm"><b>First Name</b></label>
+      <input type="text" [(ngModel)]="newuser.firstName" placeholder="Enter First Name" name="nm" required>
+
+      <label for="lstnm"><b>Last Name</b></label>
+      <input type="text" [(ngModel)]="newuser.lastName" placeholder="Enter Last Name" name="lstnm" required>
+
+      <label for="uname"><b>Username</b></label>
+      <input type="text" [(ngModel)]="newuser.username" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" [(ngModel)]="newuser.password" placeholder="Enter Password" name="psw" required>
+
+      <label for="cnf"><b>Confirm Password</b></label>
+      <input type="password" [(ngModel)]="newuser.confirmPassword" placeholder="Confirm Password" name="cnf" required>
+
+      <label for="eml"><b>Email</b></label>
+      <input type="email" class="p-2 m-2" [(ngModel)]="newuser.email" placeholder="Enter Email" name="eml" required><br>
+
+      <label for="mbl"><b>Phone Number</b></label>
+      <input type="number" class="p-2 m-2" [(ngModel)]="newuser.phoneNumber" placeholder="Enter Mobile Number" name="mbl" required>
+
+      <label for="act"><b>IsActive</b></label>
+      <input type="text" class="p-2 m-2" [(ngModel)]="newuser.isActive" placeholder="Enter IsActive" name="act" required>
+      
+      <label for="rol"><b>Role : </b></label>
+      <input type="text" class="p-2 m-2" [(ngModel)]="newuser.role" placeholder="Enter Role" name="rol" required>
+      <br><br>
+      <button type="submit" (click)="RegClick()">Register</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

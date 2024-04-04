@@ -1,0 +1,35 @@
+<h1 class="text-center">Login Page</h1>
+<form method="post">
+  
+  
+    <div class="container">
+        <span style="color: red;">*</span>
+      <label for="uname"><b>Username</b></label>
+      <input type="text" [(ngModel)]="user.username" placeholder="Enter Username" name="uname" required>
+      
+      <span style="color: red;">*</span>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" [(ngModel)]="user.password" placeholder="Enter Password" name="psw" required>
+     
+      <span style="color: red;">*</span>
+      <!-- <label for="rol"><b>Password</b></label>
+      <input type="password" [(ngModel)]="user.role" placeholder="Enter role" name="rol" required>
+      -->
+      <!-- <ngx-recaptcha []="'dfdfdfjdbjksb'" formControlName="recaptcha" required></ngx-recaptcha> -->
+      <button type="submit" (click)="loginClick()">Login</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+  
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" class="cancelbtn">Cancel</button>
+
+      <span class="psw p-2 m-2">Forgot <a href="#">password?</a></span>
+      <span class="psw p-2 m-2 button-85"> <a href="signup">Signup</a></span>
+
+    </div>
+  </form>
+
+
+

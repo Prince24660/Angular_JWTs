@@ -1,0 +1,35 @@
+<table *ngIf="userlist.length > 0" class="table table-hover table-active table-stripped">
+
+<thead>
+    <tr>
+        <th>Firstname</th>
+        <th>LastName</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>confirmPassword</th>
+        <th>Email</th>
+        <th>phoneNumber</th>
+        <th>IsActive</th>
+        <th>Actions</th>
+        
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let user of userlist">
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.password}}</td>
+        <td>{{user.confirmPassword}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phoneNumber}}</td>
+        <td>{{user.isActive}}</td>
+        <td>
+            <button class="btn" [ngClass]="{'btn-success': !user.isActive, 'btn-primary': user.isActive}" 
+                    (click)="activeOrDactive(user.id, !user.isActive, user)">
+                {{ user.isActive ? 'Deactivate User' : 'Activate User' }}
+            </button>
+        </td>
+    </tr>
+</tbody>
+</table>
